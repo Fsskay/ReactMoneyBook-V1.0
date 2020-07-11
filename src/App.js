@@ -3,6 +3,9 @@ import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import PriceList from "./components/PriceList";
+import ViewTab from "./components/ViewTab";
+import TotalPrice from "./components/TotalPrice";
+
 const items = [
     {
         "id":1,
@@ -35,10 +38,11 @@ function App() {
           Learn React
         </a>
       </header>
-        <PriceList
-            items={items}
-            onModifyItem={(item)=>{alert(item.id)}}
-            onDeleteItem={(item)=>{alert(item.id)}}
+        <ViewTab
+        />
+        <TotalPrice
+            income={600}
+            outcome={500}
         />
     </div>
   );
