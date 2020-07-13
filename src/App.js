@@ -5,6 +5,7 @@ import './App.css';
 import PriceList from "./components/PriceList";
 import ViewTab from "./components/ViewTab";
 import TotalPrice from "./components/TotalPrice";
+import MonthPicker from "./components/MonthPicker"
 
 const items = [
     {
@@ -43,6 +44,11 @@ function App() {
         <TotalPrice
             income={600}
             outcome={500}
+        />
+
+        <MonthPicker
+            year={2018}
+            month={5}
         />
     </div>
   );
