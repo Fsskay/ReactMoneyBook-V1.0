@@ -49,6 +49,10 @@ function App() {
         <MonthPicker
             year={2018}
             month={5}
+            onChange={(year,month)=>{console.log(year,month)}}
+        />
+        <PriceList
+            items={items}
         />
     </div>
   );
