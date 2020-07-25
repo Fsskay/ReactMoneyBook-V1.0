@@ -7,7 +7,7 @@ const PriceList = ({items, onModifyItem, onDeleteItem}) => {  //设定PriceList�
         <ul className="list-group list-group-flush">
             {
                 items.map((item) => (
-                    <li className="list-group-item d-flex               //第一个是key 第一个span是图标 第二个span是标题 第三个span是支出还是收入 第四个span是编辑按钮 第五个是删除按钮
+                    <li className="list-group-item d-flex
                         justify-content-between align-item-center"
                         key={item.id}       //
                     >

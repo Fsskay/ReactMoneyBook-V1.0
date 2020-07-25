@@ -8,7 +8,7 @@ import TotalPrice from "../components/TotalPrice";
 import MonthPicker from "../components/MonthPicker"
 
 
-const categoies = {
+const categories = {
     "1": {
         "id": 1, "name": "旅行", "type": "outcome", "iconName": "ios-plane"
     },
@@ -51,10 +51,28 @@ class Home extends Component {
         }
     }
 
+    changeView = (view) => {
+        this.setState({
+            tabView: view
+        })
+    };
+    changeDate = () => {
+
+    };
+    modifyItem = () => {
+
+    };
+    createItem = () => {
+
+    };
+    deleteItem = () => {
+
+    };
+
     render() {
         const {items, currentDate, tabView} = this.state;
         const itemsWithCategory = items.map(item => {
-            item.category = categoies[item.cid];
+            item.category = categories[item.cid];
             return item
         });
 
@@ -78,8 +96,7 @@ class Home extends Component {
                             <MonthPicker
                                 year={currentDate.year}
                                 month={currentDate.month}
-                                onChange={() => {
-                                }}
+                                onChange={this.changeDate}
                             />
                         </div>
                         <div className="col">
@@ -91,12 +108,18 @@ class Home extends Component {
                     </div>
                 </header>
                 <div className="content-area py-3 px-3">
-                    <ViewTab activeTab={tabView} onTabChange={() => {
-                    }}/>
-                    <creatBtn onClick={() => {
-                    }}/>
-                    <PriceList onModifyItem={() => {}} items={itemsWithCategory} onDeleteItem={() => {
-                    }}/>
+                    <ViewTab activeTab={tabView} onTabChange={this.changeView()}/>
+                    <creatBtn onClick={this.createItem()}/>
+                    { tabView === LIST_VIEW &&
+                        <PriceList
+                            onModifyItem={this.modifyItem}
+                            items={itemsWithCategory}
+                            onDeleteItem={this.deleteItem}
+                        />
+                    }
+                    { tabView === CHART_VIEW &&
+                        <h1>这里是图表模式</h1>
+                    }
                 </div>
             </React.Fragment>
         )

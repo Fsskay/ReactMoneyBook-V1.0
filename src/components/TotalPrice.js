@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types'
 
-//初始化TaolPrice,设定为输入income,outcome,输出JSX的div
+//初始化TotalPrice,设定为输入income,outcome,输出JSX的div
 
 const TotalPrice = ({income,outcome})=>(
     <div className="row">
