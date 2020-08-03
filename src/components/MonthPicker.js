@@ -32,6 +32,7 @@ class MonthPicker extends React.Component {
 
     render() {
         const {year, month} = this.props;
+        const {selectedYear} = this.state;
         const {isOpen} = this.state;
         const monthRange = range(12, 1);
         const yearRange = range(9, -4).map(number => number + year);
@@ -50,7 +51,7 @@ class MonthPicker extends React.Component {
                         <div className="col border-right">
                             {yearRange.map((yearNumber, index) =>
                                 <a key={index}
-                                   className={(yearNumber === year) ? 'dropdown-item active' : 'dropdown-item'}
+                                   className={(yearNumber === selectedYear) ? 'dropdown-item active' : 'dropdown-item'}
                                    href="#"
                                    onClick={(event) => {
                                        this.selectYear(event, yearNumber)

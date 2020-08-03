@@ -6,6 +6,7 @@ import PriceList from "../components/PriceList";
 import ViewTab from "../components/ViewTab";
 import TotalPrice from "../components/TotalPrice";
 import MonthPicker from "../components/MonthPicker"
+import CreateBtn from "../components/CreateBtn";
 
 
 const categories = {
@@ -41,6 +42,14 @@ const items = [
     }
 ];
 
+const newItem = {
+    "id": 4,
+    "title": "新添加的项目",
+    "price": 300,
+    "date": "2020年01月04日",
+    "cid": 1
+};
+
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -63,10 +72,15 @@ class Home extends Component {
 
     };
     createItem = () => {
-
+        this.setState({
+            items:[newItem,...this.state.items]
+        })
     };
-    deleteItem = () => {
-
+    deleteItem = (deletedItem) => {
+        const filteredItems = this.state.items.filter(item => item.id !== deletedItem.id);
+        this.setState({
+            items:filteredItems
+        })
     };
 
     render() {
@@ -87,40 +101,43 @@ class Home extends Component {
 
         return (
             <React.Fragment>
-                <header className="App-header">
-                    <div className="row mb-5">
+                <div>
+                    <div>
                         <img src={logo} className="App-logo" alt="logo"/>
                     </div>
-                    <div className="row">
-                        <div className="col">
+                    <div>
+                        <div>
                             <MonthPicker
                                 year={currentDate.year}
                                 month={currentDate.month}
                                 onChange={this.changeDate}
                             />
                         </div>
-                        <div className="col">
+                        <div>
                             <TotalPrice
                                 income={totalIncome}
                                 outcome={totalOutcome}
                             />
                         </div>
                     </div>
-                </header>
-                <div className="content-area py-3 px-3">
-                    <ViewTab activeTab={tabView} onTabChange={this.changeView()}/>
-                    <creatBtn onClick={this.createItem()}/>
-                    { tabView === LIST_VIEW &&
-                        <PriceList
-                            onModifyItem={this.modifyItem}
-                            items={itemsWithCategory}
-                            onDeleteItem={this.deleteItem}
-                        />
-                    }
-                    { tabView === CHART_VIEW &&
-                        <h1>这里是图表模式</h1>
-                    }
                 </div>
+
+                    <div>
+                        <React.Fragment>
+                            <ViewTab activeTab={tabView} onTabChange={()=>this.changeView()}/>
+                            <CreateBtn onClick={()=>this.createItem()}/>
+                            { tabView === LIST_VIEW &&
+                                <PriceList
+                                    onModifyItem={()=>this.modifyItem}
+                                    items={itemsWithCategory}
+                                    onDeleteItem={this.deleteItem}
+                                />
+                            }
+                            { tabView === CHART_VIEW &&
+                                <h1>这里是图表模式</h1>
+                            }
+                        </React.Fragment>
+                    </div>
             </React.Fragment>
         )
     }
