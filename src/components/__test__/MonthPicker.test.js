@@ -11,7 +11,7 @@ let props = {
 
 let wrapper;
 
-descirbe('test MonthPicker component', () => {
+describe('test MonthPicker component', () => {
     beforeEach(()=>{
         wrapper = mount(<MonthPicker {...props}/>)
     })

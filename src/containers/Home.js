@@ -67,6 +67,7 @@ class Home extends Component {
         }
     }
 
+
     changeView = (view) => {
         this.setState({
             tabView: view
