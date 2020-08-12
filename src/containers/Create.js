@@ -1,15 +1,14 @@
-import React from "react";
-import PriceForm from "../components/PriceForm"
-import {render} from "react-dom";
+import React from 'react'
+import PropTypes from 'prop-types'
+import PriceForm from '../components/PriceForm'
+
 
 export class Create extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-            selectedTab: TYPE_OUTCOME,
             selectedCategory: null,
-            validationPassed: true,
         }
     }
 
@@ -33,17 +32,17 @@ export class Create extends React.Component {
     }
 
     render() {
+
         return (
             <div>
                 <PriceForm
                     onFormSubmit={this.submitForm}
                     onCancelSubmit={this.cancelSubmit}
-                    item={editItem}
+                    // item={editItem}
                 />
             </div>
         );
     }
-
 }
 
 export default Create

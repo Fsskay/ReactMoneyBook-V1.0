@@ -2,12 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Ionicon from 'react-ionicons'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { isValidDate } from '../utility'
 
 class PriceForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
     sumbitForm = (event)=>{
         const { item,onFormSubmit } = this.props;
         const editMode = !!item.id;
@@ -15,7 +12,7 @@ class PriceForm extends React.Component {
         const price =this.priceInput.value.trim() *1;
         const date =this.dateInput.value.trim() *1;
         const title =this.titleInput.value.trim() *1;
-        if(price&&date&&title){
+        if(price && date && title){
             if(price<0){
                 this.setState({
                     errorMessage:'价格数字必须大于0'
@@ -42,9 +39,11 @@ class PriceForm extends React.Component {
         }
         event.preventDefault()
     };
+
+
     render() {
         return (
-            <form>
+            <form onSubmit={(event => {this.sumbitForm(event)})}>
                 <div className="form-group">
                     <label htmlFor="title">标题</label>
                     <input 
@@ -52,7 +51,7 @@ class PriceForm extends React.Component {
                         className="form-control" 
                         id="title" 
                         placeholder="请输入标题" 
-                        ref={(input) => {this.priceInput = input}}
+                        ref={(input) => {this.titleInput = input}}
                     />
                 </div>
                 <div className="form-group">
@@ -77,7 +76,7 @@ class PriceForm extends React.Component {
                 </div>
                 <button type="submit" className="btn btn-primary mr-3">提交</button>
                 <button onClick={this.props.onCancelSubmit}>取消</button>
-                { !this.state.validatePass &&
+                {
                     <div className="alert alert-danger mt-5" role="alert">
                         {this.state.errorMessage}
                     </div>

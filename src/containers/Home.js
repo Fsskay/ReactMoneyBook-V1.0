@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import logo from '../logo.svg';
-
 import {LIST_VIEW, CHART_VIEW, TYPE_OUTCOME, parseToYearAndMonth,padLeft} from '../utility'
 import PriceList from "../components/PriceList";
 import ViewTab from "../components/ViewTab";
 import TotalPrice from "../components/TotalPrice";
 import MonthPicker from "../components/MonthPicker"
 import CreateBtn from "../components/CreateBtn";
+import { Tabs, Tab } from '../components/Tabs'
 
 
 const categories = {
@@ -48,7 +48,6 @@ const items = [
         "cid": 2
     }
 ];
-
 const newItem = {
     "id": 4,
     "title": "新添加的项目",
@@ -56,6 +55,8 @@ const newItem = {
     "date": "2020-01-04",
     "cid": 1
 };
+
+
 
 class Home extends Component {
     constructor(props) {
@@ -66,8 +67,6 @@ class Home extends Component {
             tabView: LIST_VIEW,
         }
     }
-
-
     changeView = (view) => {
         this.setState({
             tabView: view
@@ -82,9 +81,9 @@ class Home extends Component {
 
     };
     createItem = () => {
-        this.setState({
-            items:[newItem,...this.state.items]
-        })
+            this.setState({
+                items:[newItem,...this.state.items]
+            })
     };
     deleteItem = (deletedItem) => {
         const filteredItems = this.state.items.filter(item => item.id !== deletedItem.id);
@@ -136,6 +135,11 @@ class Home extends Component {
 
                     <div>
                         <React.Fragment>
+                            <Tabs activeIndex={0} onTabChange={()=>{}}>
+                                <Tab>1st item</Tab>
+                                <Tab>2st item</Tab>
+                                <Tab>3st item</Tab>
+                            </Tabs>
                             <ViewTab activeTab={tabView} onTabChange={()=>this.changeView()}/>
                             <CreateBtn onClick={()=>this.createItem()}/>
                             { tabView === LIST_VIEW &&

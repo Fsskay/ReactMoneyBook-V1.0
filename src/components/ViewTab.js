@@ -7,8 +7,8 @@ const generateLinkClass = (current, view) => {
     return (current === view) ? 'nav-link active' : 'nav-link'
 }
 const ViewTab = ({activeTab, onTabChange}) => (
-    <ul className="nav nav-tabs nav-fill my-4">
-        <li className="nav-item">
+    <ul >
+        <li>
             <a
                 className={generateLinkClass(activeTab, CHART_VIEW)}
                 href="#"
@@ -20,7 +20,7 @@ const ViewTab = ({activeTab, onTabChange}) => (
                 列表模式
             </a>
         </li>
-        <li className="nav-item">
+        <li>
                 <a
                     className={generateLinkClass(activeTab, LIST_VIEW)}
                     href="#"
