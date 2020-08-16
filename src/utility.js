@@ -30,4 +30,22 @@ export const isValidDate = (dateString) => {
     const d = new Date(dateString);
     if(Number.isNaN(d.getTime())) return false; // Invalid date
     return d.toISOString().slice(0,10) === dateString;
+};
+
+
+export const flatternArr = (arr) =>{
+    return arr.reduce((map,item)=>{
+        map[item.id] = item;
+        return map
+    },{})
+};
+
+export const Colors = {
+    blue: '#347eff',
+    deepBlue: '#61dafb',
+    green: '#28a745',
+    red: '#dc3545',
+    gray: '#555',
+    lightGray: '#efefef',
+    white: '#fff',
 }

@@ -7,6 +7,7 @@ import TotalPrice from "../components/TotalPrice";
 import MonthPicker from "../components/MonthPicker"
 import CreateBtn from "../components/CreateBtn";
 import { Tabs, Tab } from '../components/Tabs'
+import Ionicon from 'react-ionicons'
 
 
 const categories = {
@@ -56,6 +57,7 @@ const newItem = {
     "cid": 1
 };
 
+const tabsText = [LIST_VIEW,CHART_VIEW]
 
 
 class Home extends Component {
@@ -64,12 +66,12 @@ class Home extends Component {
         this.state = {
             items,
             currentDate: parseToYearAndMonth(),
-            tabView: LIST_VIEW,
+            tabView: tabsText[0],
         }
     }
-    changeView = (view) => {
+    changeView = (index) => {
         this.setState({
-            tabView: view
+            tabView: tabsText[index]
         })
     };
     changeDate = (year,month) => {
@@ -77,6 +79,8 @@ class Home extends Component {
             currentDate:{year,month}
         })
     };
+
+
     modifyItem = () => {
 
     };
@@ -118,6 +122,7 @@ class Home extends Component {
                     </div>
                     <div>
                         <div>
+                            {/*子组件的props有值,改变state的方法*/}
                             <MonthPicker
                                 year={currentDate.year}
                                 month={currentDate.month}
@@ -135,13 +140,30 @@ class Home extends Component {
 
                     <div>
                         <React.Fragment>
-                            <Tabs activeIndex={0} onTabChange={()=>{}}>
-                                <Tab>1st item</Tab>
-                                <Tab>2st item</Tab>
-                                <Tab>3st item</Tab>
+                            <Tabs activeIndex={0} onTabChange={this.changeView}>
+                                <Tab>
+                                    <Ionicon
+                                        className="rounder-circle mr-2"
+                                        fontSize="25px"
+                                        color={'#006bff'}
+                                        icon='ios-paper'
+                                    />
+                                    Tabs列表模式
+                                </Tab>
+                                <Tab>
+                                    <Ionicon
+                                        className="rounder-circle mr-2"
+                                        fontSize="25px"
+                                        color={'#007bff'}
+                                        icon='ios-pie'
+                                    />
+                                    Tabs图表模式
+
+                                </Tab>
                             </Tabs>
-                            <ViewTab activeTab={tabView} onTabChange={()=>this.changeView()}/>
-                            <CreateBtn onClick={()=>this.createItem()}/>
+                            {/*<ViewTab activeTab={tabView} onTabChange={this.changeView()}/>*/}
+                            <CreateBtn onCreateBtnClick={this.createItem}/>
+                            {/*如果tabView是列表模式,则显示PriceList*/}
                             { tabView === LIST_VIEW &&
                                 <PriceList
                                     onModifyItem={()=>this.modifyItem}
@@ -149,6 +171,7 @@ class Home extends Component {
                                     onDeleteItem={this.deleteItem}
                                 />
                             }
+                            {/*如果tabView是图表模式,则显示          */}
                             { tabView === CHART_VIEW &&
                                 <h1>这里是图表模式</h1>
                             }

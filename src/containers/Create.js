@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PriceForm from '../components/PriceForm'
+import CategorySelect from "../components/CategorySelect";
+import {Tabs,Tab} from '../components/Tabs'
+import {TYPE_INCOME,TYPE_OUTCOME} from "../utility";
+import {testItems,testCategories} from "../testData";
 
 
 export class Create extends React.Component {
@@ -32,8 +36,16 @@ export class Create extends React.Component {
     }
 
     render() {
-
+        const filterCategories = testCategories.filter(category => category.type ===TYPE_OUTCOME);
         return (
+            <React.Fragment>
+            <div className="create-page py-3 px-3 rounded mt-3" style={{background:'#fff'}}>
+                <Tabs activeIndex={0} onTabChange={()=>{}}>
+                    <Tab>支出</Tab>
+                    <Tab>收入</Tab>
+                </Tabs>
+                <CategorySelect categories={filterCategories} onSelectCategory={()=>{}}/>
+            </div>
             <div>
                 <PriceForm
                     onFormSubmit={this.submitForm}
@@ -41,6 +53,7 @@ export class Create extends React.Component {
                     // item={editItem}
                 />
             </div>
+            </React.Fragment>
         );
     }
 }

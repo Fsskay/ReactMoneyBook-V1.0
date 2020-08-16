@@ -2,8 +2,8 @@ import React from "react";
 import Ionicon from 'react-ionicons'
 import PropTypes from 'prop-types'
 
-const PriceList = ({items, onModifyItem, onDeleteItem}) => {  //设定PriceList的三个props,条目items(在app.js中),编辑条目onModifyItem,删除条目onDeleteItem
-    return (                                                   //JSX
+const PriceList = ({items, onModifyItem, onDeleteItem}) => {  //props作为参数传入
+    return (
         <ul className="list-group list-group-flush">
             {
                 items.map((item) => (
