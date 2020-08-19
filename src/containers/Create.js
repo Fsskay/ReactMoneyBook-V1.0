@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PriceForm from '../components/PriceForm'
 import CategorySelect from "../components/CategorySelect";
-import {Tabs,Tab} from '../components/Tabs'
-import {TYPE_INCOME,TYPE_OUTCOME} from "../utility";
-import {testItems,testCategories} from "../testData";
-
+import {Tabs, Tab} from '../components/Tabs'
+import {TYPE_INCOME, TYPE_OUTCOME} from "../utility";
+import {testItems, testCategories} from "../testData";
+import withContext from "../WithContext"
 
 export class Create extends React.Component {
 
@@ -27,7 +27,7 @@ export class Create extends React.Component {
             });
             return
         }
-        if(!isEditMode) {
+        if (!isEditMode) {
             this.props.actions.createItem(data, this.state.selectedCategory.id).then(this.navigateToHome)
         } else {
             this.props.actions.updateItem(data, this.state.selectedCategory.id).then(this.navigateToHome)
@@ -36,26 +36,34 @@ export class Create extends React.Component {
     }
 
     render() {
-        const filterCategories = testCategories.filter(category => category.type ===TYPE_OUTCOME);
+        const {data} = this.props
+        console.log('data1')
+
+        console.log(data)
+        console.log('data2')
+
+        const filterCategories = testCategories.filter(category => category.type === TYPE_OUTCOME);
         return (
             <React.Fragment>
-            <div className="create-page py-3 px-3 rounded mt-3" style={{background:'#fff'}}>
-                <Tabs activeIndex={0} onTabChange={()=>{}}>
-                    <Tab>支出</Tab>
-                    <Tab>收入</Tab>
-                </Tabs>
-                <CategorySelect categories={filterCategories} onSelectCategory={()=>{}}/>
-            </div>
-            <div>
-                <PriceForm
-                    onFormSubmit={this.submitForm}
-                    onCancelSubmit={this.cancelSubmit}
-                    // item={editItem}
-                />
-            </div>
+                <div className="create-page py-3 px-3 rounded mt-3" style={{background: '#fff'}}>
+                    <Tabs activeIndex={0} onTabChange={() => {
+                    }}>
+                        <Tab>支出</Tab>
+                        <Tab>收入</Tab>
+                    </Tabs>
+                    <CategorySelect categories={filterCategories} onSelectCategory={() => {
+                    }}/>
+                </div>
+                <div>
+                    <PriceForm
+                        onFormSubmit={this.submitForm}
+                        onCancelSubmit={this.cancelSubmit}
+
+                    />
+                </div>
             </React.Fragment>
         );
     }
 }
 
-export default Create
+export default withContext(Create)

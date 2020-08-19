@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 import logo from '../logo.svg';
-import {LIST_VIEW, CHART_VIEW, TYPE_OUTCOME, parseToYearAndMonth,padLeft} from '../utility'
+import {LIST_VIEW, CHART_VIEW, TYPE_OUTCOME, parseToYearAndMonth, padLeft} from '../utility'
 import PriceList from "../components/PriceList";
 import ViewTab from "../components/ViewTab";
 import TotalPrice from "../components/TotalPrice";
 import MonthPicker from "../components/MonthPicker"
 import CreateBtn from "../components/CreateBtn";
-import { Tabs, Tab } from '../components/Tabs'
+import {Tabs, Tab} from '../components/Tabs'
 import Ionicon from 'react-ionicons'
+import {AppContext} from "../App"
+import withContext from '../WithContext'
 
 
-const categories = {
+export const categories = {
     "1": {
         "id": 1, "name": "旅行", "type": "outcome", "iconName": "ios-plane"
     },
@@ -18,7 +20,7 @@ const categories = {
         "id": 2, "name": "理财", "type": "income", "iconName": "ios-plane"
     }
 };
-const items = [
+export const items = [
     {
         "id": 1,
         "title": "去云南旅游",
@@ -57,7 +59,7 @@ const newItem = {
     "cid": 1
 };
 
-const tabsText = [LIST_VIEW,CHART_VIEW]
+const tabsText = [LIST_VIEW, CHART_VIEW]
 
 
 class Home extends Component {
@@ -69,14 +71,15 @@ class Home extends Component {
             tabView: tabsText[0],
         }
     }
+
     changeView = (index) => {
         this.setState({
             tabView: tabsText[index]
         })
     };
-    changeDate = (year,month) => {
+    changeDate = (year, month) => {
         this.setState({
-            currentDate:{year,month}
+            currentDate: {year, month}
         })
     };
 
@@ -85,23 +88,25 @@ class Home extends Component {
 
     };
     createItem = () => {
-            this.setState({
-                items:[newItem,...this.state.items]
-            })
+        this.setState({
+            items: [newItem, ...this.state.items]
+        })
     };
     deleteItem = (deletedItem) => {
         const filteredItems = this.state.items.filter(item => item.id !== deletedItem.id);
         this.setState({
-            items:filteredItems
+            items: filteredItems
         })
     };
 
     render() {
+        const { data } = this.props;
+        console.log(data)
         const {items, currentDate, tabView} = this.state;
         const itemsWithCategory = items.map(item => {
             item.category = categories[item.cid];
             return item
-        }).filter(item =>{
+        }).filter(item => {
             return item.date.includes(`${currentDate.year}-${padLeft(currentDate.month)}`)
         });
 
@@ -137,49 +142,49 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-
-                    <div>
-                        <React.Fragment>
-                            <Tabs activeIndex={0} onTabChange={this.changeView}>
-                                <Tab>
-                                    <Ionicon
-                                        className="rounder-circle mr-2"
-                                        fontSize="25px"
-                                        color={'#006bff'}
-                                        icon='ios-paper'
-                                    />
-                                    Tabs列表模式
-                                </Tab>
-                                <Tab>
-                                    <Ionicon
-                                        className="rounder-circle mr-2"
-                                        fontSize="25px"
-                                        color={'#007bff'}
-                                        icon='ios-pie'
-                                    />
-                                    Tabs图表模式
-
-                                </Tab>
-                            </Tabs>
-                            {/*<ViewTab activeTab={tabView} onTabChange={this.changeView()}/>*/}
-                            <CreateBtn onCreateBtnClick={this.createItem}/>
-                            {/*如果tabView是列表模式,则显示PriceList*/}
-                            { tabView === LIST_VIEW &&
-                                <PriceList
-                                    onModifyItem={()=>this.modifyItem}
-                                    items={itemsWithCategory}
-                                    onDeleteItem={this.deleteItem}
+                <div>
+                    <React.Fragment>
+                        <Tabs activeIndex={0} onTabChange={this.changeView}>
+                            <Tab>
+                                <Ionicon
+                                    className="rounder-circle mr-2"
+                                    fontSize="25px"
+                                    color={'#006bff'}
+                                    icon='ios-paper'
                                 />
-                            }
-                            {/*如果tabView是图表模式,则显示          */}
-                            { tabView === CHART_VIEW &&
-                                <h1>这里是图表模式</h1>
-                            }
-                        </React.Fragment>
-                    </div>
+                                Tabs列表模式
+                            </Tab>
+                            <Tab>
+                                <Ionicon
+                                    className="rounder-circle mr-2"
+                                    fontSize="25px"
+                                    color={'#007bff'}
+                                    icon='ios-pie'
+                                />
+                                Tabs图表模式
+
+                            </Tab>
+                        </Tabs>
+                        {/*<ViewTab activeTab={tabView} onTabChange={this.changeView()}/>*/}
+                        <CreateBtn onCreateBtnClick={this.createItem}/>
+                        {/*如果tabView是列表模式,则显示PriceList*/}
+                        {tabView === LIST_VIEW &&
+                        <PriceList
+                            onModifyItem={() => this.modifyItem}
+                            items={itemsWithCategory}
+                            onDeleteItem={this.deleteItem}
+                        />
+                        }
+                        {/*如果tabView是图表模式,则显示          */}
+                        {tabView === CHART_VIEW &&
+                        <h1>这里是图表模式</h1>
+                        }
+                    </React.Fragment>
+                </div>
             </React.Fragment>
+
         )
     }
 }
 
-export default Home
+export default withContext(Home)

@@ -20,14 +20,14 @@ class MonthPicker extends React.Component {
         document.addEventListener('click', this.handleClick, false)
     }
 
-    handleClick = (event) => {
-        if (this.node.contains(event.target)) {
-            return;
-        }
-        this.setState({
-            isOpen: false,
-        })
-    };
+    // handleClick = (event) => {
+    //     if (this.node.contains(event.target)) {
+    //         return;
+    //     }
+    //     this.setState({
+    //         isOpen: false,
+    //     })
+    // };
 
     toggleDropdown = (event) => {
         event.preventDefault();

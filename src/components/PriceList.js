@@ -23,7 +23,7 @@ const PriceList = ({items, onModifyItem, onDeleteItem}) => {  //props作为参�
                         <span className="col-5">{item.title}</span>
                         <span className="col-2 font-weight-bold">{(item.category.type === 'income')? '+':'-'}{item.price}</span>
                         <span className="col-2">{item.date}</span>
-                        <a className="col-1" onClick={()=>{onModifyItem(item)}}>
+                        <a className="col-1" onClick={onModifyItem(item)}>
                             <Ionicon
                             className="rounded-circle"
                             fonSize="30px"
@@ -32,7 +32,7 @@ const PriceList = ({items, onModifyItem, onDeleteItem}) => {  //props作为参�
                             icon='ios-create-outline'
                             />
                         </a>
-                        <a className="col-1" onClick={()=>{onDeleteItem(item)}}>
+                        <a className="col-1" onClick={onDeleteItem(item)}>
                             <Ionicon
                                 className="rounded-circle"
                                 fonSize="30px"
