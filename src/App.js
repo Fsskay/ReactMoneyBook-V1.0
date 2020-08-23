@@ -5,8 +5,7 @@ import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Home from "./containers/Home"
 import Create from "./containers/Create"
 import {testItems, testCategories} from "./testData";
-import {flatternArr} from "./utility"
-
+import {flatternArr, ID, parseToYearAndMonth} from "./utility"
 
 export const AppContext = React.createContext()
 
@@ -23,35 +22,46 @@ class App extends Component {
                 this.setState({
                     items:this.state.items
                 })
+            },
+            createItem:(data,categoryId) =>{
+                const newId = ID()
+                const parsedDate = parseToYearAndMonth(data.date)
+                data.monthCategory = `${parsedDate.year}-${parsedDate.month}`
+                data.timestamp = new Date(data.date).getTime()
+                const newItem = {...data,id:newId,cid:categoryId}
+                this.setState({
+                    items:{...this.state.items,[newId]:newItem}
+                })
+            },
+            updateItem:(item,updatedCategoryId)=>{
+                const modifiedItem = {
+                    ...item,
+                    cid:updatedCategoryId,
+                    timestamp:new Date(item.date).getTime()
+                }
+                this.setState({
+                    items:{...this.state.items,[modifiedItem.id]:modifiedItem}
+                })
             }
         }
     }
 
     render() {
-
         return (
-
             <AppContext.Provider value={{
                 state:this.state,
                 actions:this.actions
             }}>
                 <Router>
                     <div className="App">
-                        <ul>
-                            <Link to="/">Home</Link>
-                            <Link to="/Create">Create</Link>
-                            <Link to="/edit/10">Edit</Link>
-                        </ul>
-                        <div className="container pb-5">
+                        <div className="container  pb-5">
                             <Route path="/" exact component={Home}/>
                             <Route path="/Create" component={Create}/>
                             <Route path="/edit/:id" component={Create}/>
-
                         </div>
                     </div>
                 </Router>
             </AppContext.Provider>
-
         );
     }
 }

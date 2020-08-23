@@ -23,7 +23,7 @@ export class Tabs extends React.Component {
         const {activeIndex} = this.state;
         return (
 
-            <ul>
+            <ul class="nav nav-tabs nav-fill my-4 ">
                 {/*  React.Children.map(this.props.children,function(child) {
                     return <li>{child}</li>
                     })*/}
@@ -32,7 +32,7 @@ export class Tabs extends React.Component {
                 {React.Children.map(children, (child, index) => {
                     const activeClassName = (activeIndex === index) ? 'nav-link active' : 'nav-link';
                     return (
-                        <li>
+                        <li className="nav-item ">
                             <a
                                 onClick={(event) => {
                                     this.tabChange(event, index)

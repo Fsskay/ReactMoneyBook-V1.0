@@ -6,6 +6,7 @@ const CreateBtn = ({ onCreateBtnClick }) => (
     <button
         className="btn btn-primary btn-block d-flex justify-content-center align-items-center"
         onClick={(event) => {onCreateBtnClick()}}
+        style={{marginTop:5}}
     >
         <Ionicon
             className="rounded-circle"

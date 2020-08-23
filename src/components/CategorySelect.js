@@ -32,7 +32,7 @@ class CategorySelect extends React.Component {
                             const backColor = (category.id === selectedCategoryId) ? Colors.blue : Colors.lightGray;
                             const activeClassName = (selectedCategoryId ===category.id)?'category-item col-3 active':'category-item col-3';
                             return (
-                                <div className="activeClassName" key={index}
+                                <div className={activeClassName} key={index} role="button" style={{ textAlign: 'center'}}
                                 onClick={(event) =>{
                                     this.selectCategory(event,category)
                                 }}>
@@ -43,6 +43,7 @@ class CategorySelect extends React.Component {
                                         color={iconColor}
                                         icon={category.iconName}
                                     />
+                                    <p>{category.name}</p>
                                 </div>
                             )
                         })

@@ -25,30 +25,29 @@ class PriceForm extends React.Component {
         const editMode = !!item.id;
 
         const price =this.priceInput.value.trim() *1;
-        const date =this.dateInput.value.trim() *1;
-        const title =this.titleInput.value.trim() *1;
-        if(price && date && title){
-            if(price<0){
+        const date =this.dateInput.value.trim() ;
+        const title =this.titleInput.value.trim() ;
+        if (price && date && title) {
+            if (price < 0) {
                 this.setState({
                     validatePass: false,
-                    errorMessage:'价格数字必须大于0'
+                    errorMessage: '价格数字必须大于0'
                 })
-            } else if ( !isValidDate(date)){
+            } else if (!isValidDate(date)) {
                 this.setState({
                     validatePass: false,
-                    isValidDate:'请填写正确的日期格式'
+                    errorMessage: '请填写正确的日期格式'
                 })
-            } else{
+            } else {
                 this.setState({
-                    validatePass: false,
-                    errorMessage:''
+                    validatePass: true,
+                    errorMessage: ''
                 })
-                if(editMode){
-                    onFormSubmit({ ...item, title, price, date }, editMode)
-                }else{
-                    onFormSubmit({ title, price, date }, editMode)
+                if (editMode) {
+                    onFormSubmit({...item, title, price, date}, editMode)
+                } else {
+                    onFormSubmit({title, price, date}, editMode)
                 }
-
             }
         } else {
             this.setState({
@@ -57,41 +56,41 @@ class PriceForm extends React.Component {
             })
         }
         event.preventDefault()
-    };
+    }
 
 
     render() {
         const { title, price, date } = this.props.item
         return (
-            <form onSubmit={(event => {this.sumbitForm(event)})}>
+            <form onSubmit={(event) => {this.sumbitForm(event)}} noValidate style={{background: '#fff'}}>
                 <div className="form-group">
-                    <label htmlFor="title">标题</label>
-                    <input 
-                        type="text" 
-                        className="form-control" 
-                        id="title" 
+                    <label htmlFor="title">标题*</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="title"
                         placeholder="请输入标题"
                         defaultValue={title}
                         ref={(input) => {this.titleInput = input}}
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="price">金额</label>
-                    <input 
-                        type="number" 
-                        className="form-control" 
-                        id="price" 
+                    <label htmlFor="price">金额*</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        id="price"
                         placeholder="请输入金额"
                         defaultValue={price}
                         ref={(input) => {this.priceInput = input}}
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="date">日期</label>
-                    <input 
+                    <label htmlFor="date">日期*</label>
+                    <input
                         type="date"
-                        className="form-control" 
-                        id="exampleInputPassword1" 
+                        className="form-control"
+                        id="date"
                         placeholder="请输入日期"
                         defaultValue={date}
                         ref={(input) => {this.dateInput = input}}

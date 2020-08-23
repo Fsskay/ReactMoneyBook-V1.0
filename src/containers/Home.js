@@ -10,63 +10,15 @@ import {Tabs, Tab} from '../components/Tabs'
 import Ionicon from 'react-ionicons'
 import {AppContext} from "../App"
 import withContext from '../WithContext'
+import {withRouter} from 'react-router-dom'
 
-
-export const categories = {
-    "1": {
-        "id": 1, "name": "旅行", "type": "outcome", "iconName": "ios-plane"
-    },
-    "2": {
-        "id": 2, "name": "理财", "type": "income", "iconName": "ios-plane"
-    }
-};
-export const items = [
-    {
-        "id": 1,
-        "title": "去云南旅游",
-        "price": 200,
-        "date": "2020-01-01-",
-        "cid": 1
-    },
-    {
-        "id": 2,
-        "title": "去云南旅游",
-        "price": 400,
-        "date": "2020-01-02",
-        "cid": 1
-
-    },
-    {
-        "id": 3,
-        "title": "理财",
-        "price": 1000,
-        "date": "2020-01-03",
-        "cid": 2
-    },
-    {
-        "id": 3,
-        "title": "理财",
-        "price": 1000,
-        "date": "2020-08-01",
-        "cid": 2
-    }
-];
-const newItem = {
-    "id": 4,
-    "title": "新添加的项目",
-    "price": 300,
-    "date": "2020-01-04",
-    "cid": 1
-};
 
 const tabsText = [LIST_VIEW, CHART_VIEW]
-
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items,
             currentDate: parseToYearAndMonth(),
             tabView: tabsText[0],
         }
@@ -82,30 +34,30 @@ class Home extends Component {
             currentDate: {year, month}
         })
     };
-
-
-    modifyItem = () => {
-
+    modifyItem = (item) => {
+        this.props.history.push(`/edit/${item.id}`)
     };
     createItem = () => {
-        this.setState({
-            items: [newItem, ...this.state.items]
-        })
+        // this.setState({
+        //     items: [newItem, ...this.state.items]
+        // })
+        this.props.history.push('/create')
     };
-    deleteItem = (deletedItem) => {
-        const filteredItems = this.state.items.filter(item => item.id !== deletedItem.id);
-        this.setState({
-            items: filteredItems
-        })
+    deleteItem = (item) => {
+        // const filteredItems = this.state.items.filter(item => item.id !== deletedItem.id);
+        // this.setState({
+        //     items: filteredItems
+        // })
+        this.props.actions.deleteItem(item)
     };
 
     render() {
-        const { data } = this.props;
-        console.log(data)
-        const {items, currentDate, tabView} = this.state;
-        const itemsWithCategory = items.map(item => {
-            item.category = categories[item.cid];
-            return item
+        const {data} = this.props;
+        const {items, categories} = data
+        const {currentDate, tabView} = this.state
+        const itemsWithCategory = Object.keys(items).map(id => {
+            items[id].category = categories[items[id].cid];
+            return items[id]
         }).filter(item => {
             return item.date.includes(`${currentDate.year}-${padLeft(currentDate.month)}`)
         });
@@ -121,20 +73,19 @@ class Home extends Component {
 
         return (
             <React.Fragment>
-                <div>
-                    <div>
+                <div className="App-header">
+                    <div className="row mb-5 justify-content-center">
                         <img src={logo} className="App-logo" alt="logo"/>
                     </div>
-                    <div>
-                        <div>
-                            {/*子组件的props有值,改变state的方法*/}
+                    <div className="row">
+                        <div className="col">
                             <MonthPicker
                                 year={currentDate.year}
                                 month={currentDate.month}
                                 onChange={this.changeDate}
                             />
                         </div>
-                        <div>
+                        <div className="col">
                             <TotalPrice
                                 income={totalIncome}
                                 outcome={totalOutcome}
@@ -142,7 +93,7 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className="content-area py-3 px-3">
                     <React.Fragment>
                         <Tabs activeIndex={0} onTabChange={this.changeView}>
                             <Tab>
@@ -152,7 +103,7 @@ class Home extends Component {
                                     color={'#006bff'}
                                     icon='ios-paper'
                                 />
-                                Tabs列表模式
+                                列表模式
                             </Tab>
                             <Tab>
                                 <Ionicon
@@ -161,7 +112,7 @@ class Home extends Component {
                                     color={'#007bff'}
                                     icon='ios-pie'
                                 />
-                                Tabs图表模式
+                                图表模式
 
                             </Tab>
                         </Tabs>
@@ -170,7 +121,7 @@ class Home extends Component {
                         {/*如果tabView是列表模式,则显示PriceList*/}
                         {tabView === LIST_VIEW &&
                         <PriceList
-                            onModifyItem={() => this.modifyItem}
+                            onModifyItem={this.modifyItem}
                             items={itemsWithCategory}
                             onDeleteItem={this.deleteItem}
                         />
@@ -187,4 +138,4 @@ class Home extends Component {
     }
 }
 
-export default withContext(Home)
+export default withRouter(withContext(Home))

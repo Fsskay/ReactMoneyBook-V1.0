@@ -17,17 +17,17 @@ class MonthPicker extends React.Component {
     }
 
     componentWillUnmount() {
-        document.addEventListener('click', this.handleClick, false)
+        document.removeEventListener('click', this.handleClick, false)
     }
 
-    // handleClick = (event) => {
-    //     if (this.node.contains(event.target)) {
-    //         return;
-    //     }
-    //     this.setState({
-    //         isOpen: false,
-    //     })
-    // };
+    handleClick = (event) => {
+        if (this.node.contains(event.target)) {
+            return;
+        }
+        this.setState({
+            isOpen: false,
+        })
+    };
 
     toggleDropdown = (event) => {
         event.preventDefault();
@@ -66,7 +66,7 @@ class MonthPicker extends React.Component {
                 this.node = ref
             }}>
 
-                <h4>选择月份</h4>
+                <h2>选择月份</h2>
 
                 <button
                     className="btn btn-lg btn-secondary dropdown-toggle"
@@ -79,10 +79,10 @@ class MonthPicker extends React.Component {
                 {isOpen &&
                 <div className="dropdown-menu" style={{display: 'block'}}>
                     <div className="row">
-                        <div className="col border-right">
+                        <div className="col border-right years-range">
                             {yearRange.map((yearNumber, index) =>
                                 <a key={index}
-                                   className={(yearNumber === selectedYear) ? 'dropdown-item active' : 'dropdown-item'}
+                                   className={(yearNumber === selectedYear) ? 'dropdown-item active text-white' : 'dropdown-item'}
                                    href="#"
                                    onClick={(event) => {
                                        this.selectYear(event, yearNumber)
@@ -93,7 +93,7 @@ class MonthPicker extends React.Component {
                                 </a>
                             )}
                         </div>
-                        <div className="col border-right">
+                        <div className="col months-range">
                             {monthRange.map((monthNumber, index) =>
                                 <a key={index}
                                    className={(monthNumber === month) ? 'dropdown-item active' : 'dropdown-item'}
