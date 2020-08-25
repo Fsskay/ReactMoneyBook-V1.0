@@ -20,11 +20,17 @@ class App extends Component {
             currentDate: parseToYearAndMonth()
 
         };
-        this.actions = {
-            getInitialData: async () => {
+
+        const withLoading = (cb) =>{
+            return (...args)=>{
                 this.setState({
-                    isLoading: true,
+                    isLoading:true
                 })
+                return cb(...args)
+            }
+        }
+        this.actions = {
+            getInitialData: withLoading(async () => {
                 const {currentDate} = this.state
                 const getURLWithData = `/items?monthCategory=${currentDate.year}-${currentDate.month}&_sort=timestamp&order=desc`
                 const results = await Promise.all([axios.get('/categories'), axios.get(getURLWithData)])
@@ -34,10 +40,10 @@ class App extends Component {
                     categories: flatternArr(categories.data)
                 })
                 return items
-            },
+            }),
 
 
-            selectNewMonth: async (year, month) => {
+            selectNewMonth: withLoading(async (year, month) => {
                 const getURLWithData = `/items?monthCategory=${year}-${month}&_sort=timestamp&order=desc`
                 const items = await axios.get(getURLWithData)
                 this.setState({
@@ -46,15 +52,16 @@ class App extends Component {
                     isLoading: false,
                 })
                 return items
-            },
-            deleteItem: async (item) => {
+            }),
+            deleteItem: withLoading(async (item) => {
                 const deleteItem = await axios.delete(`/items/$items.id`)
                 delete this.state.items[item.id]
                 this.setState({
-                    items: this.state.items
+                    items: this.state.items,
+                    isLoading: false,
                 })
                 return deleteItem
-            },
+            }),
             createItem: (data, categoryId) => {
                 const newId = ID()
                 const parsedDate = parseToYearAndMonth(data.date)
