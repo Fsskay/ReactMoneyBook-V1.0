@@ -122,9 +122,8 @@ class Home extends Component {
 
                             </Tab>
                         </Tabs>
-                    {/*<ViewTab activeTab={tabView} onTabChange={this.changeView()}/>*/}
                         <CreateBtn onCreateBtnClick={this.createItem}/>
-                    {/*如果tabView是列表模式,则显示PriceList*/}
+
                     {tabView === LIST_VIEW &&
                         <PriceList
                         onModifyItem={this.modifyItem}
@@ -132,7 +131,7 @@ class Home extends Component {
                         onDeleteItem={this.deleteItem}
                         />
                     }
-                    {/*如果tabView是图表模式,则显示          */}
+
                     {tabView === CHART_VIEW &&
                         <h1>这里是图表模式</h1>
                     }

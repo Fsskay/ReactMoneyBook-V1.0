@@ -20,7 +20,6 @@ class App extends Component {
             currentDate: parseToYearAndMonth()
 
         };
-
         const withLoading = (cb) =>{
             return (...args)=>{
                 this.setState({
@@ -37,9 +36,34 @@ class App extends Component {
                 const [categories, items] = results
                 this.setState({
                     items: flatternArr(items.data),
-                    categories: flatternArr(categories.data)
+                    categories: flatternArr(categories.data),
+                    isLoading:false,
                 })
                 return items
+            }),
+            getEditData:withLoading(async (id)=>{
+                let promiseArr =[axios.get('/categories')]
+                if (id){
+                    const getURLWithID = `/items/${id}`
+                    promiseArr.push(axios.get(getURLWithID))
+                }
+                const [categories,editItem] = await Promise.all(promiseArr)
+                if (id) {
+                    this.setState({
+                        categories:flatternArr(categories.data),
+                        isLoading:false,
+                        items:{...this.state.items,[id]:editItem.data},
+                    })
+                } else {
+                    this.setState({
+                        categories:flatternArr(categories.data),
+                        isLoading:false,
+                    })
+                }
+                return {
+                    categories:flatternArr(categories.data),
+                    editItem:editItem?editItem.data:null
+                }
             }),
 
 
@@ -54,7 +78,7 @@ class App extends Component {
                 return items
             }),
             deleteItem: withLoading(async (item) => {
-                const deleteItem = await axios.delete(`/items/$items.id`)
+                const deleteItem = await axios.delete(`/items/${item.id}`)
                 delete this.state.items[item.id]
                 this.setState({
                     items: this.state.items,
@@ -62,26 +86,30 @@ class App extends Component {
                 })
                 return deleteItem
             }),
-            createItem: (data, categoryId) => {
+            createItem:withLoading( async(data, categoryId) => {
                 const newId = ID()
                 const parsedDate = parseToYearAndMonth(data.date)
                 data.monthCategory = `${parsedDate.year}-${parsedDate.month}`
-                data.timestamp = new Date(data.date).getTime()
-                const newItem = {...data, id: newId, cid: categoryId}
+                const newItem = await axios.post('/items',{...data, id: newId, cid: categoryId})
                 this.setState({
-                    items: {...this.state.items, [newId]: newItem}
+                    items: {...this.state.items, [newId]: newItem.data},
+                    isLoading:false
                 })
-            },
-            updateItem: (item, updatedCategoryId) => {
-                const modifiedItem = {
+                return newItem.data
+            }),
+            updateItem:withLoading( async(item, updatedCategoryId) => {
+                const updatedData = {
                     ...item,
                     cid: updatedCategoryId,
                     timestamp: new Date(item.date).getTime()
                 }
+                const modifiedItem = await axios.put(`/items/${item.id}`,updatedData)
                 this.setState({
-                    items: {...this.state.items, [modifiedItem.id]: modifiedItem}
+                    items: {...this.state.items, [modifiedItem.id]: modifiedItem.data},
+                    isLoading:false,
                 })
-            }
+                return modifiedItem.data
+            })
         }
     }
 
