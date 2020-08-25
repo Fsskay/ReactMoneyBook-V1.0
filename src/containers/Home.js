@@ -11,7 +11,7 @@ import Ionicon from 'react-ionicons'
 import {AppContext} from "../App"
 import withContext from '../WithContext'
 import {withRouter} from 'react-router-dom'
-
+import Loader from '../components/Loader'
 
 const tabsText = [LIST_VIEW, CHART_VIEW]
 
@@ -19,9 +19,14 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentDate: parseToYearAndMonth(),
             tabView: tabsText[0],
         }
+    }
+
+    componentDidMount() {
+        this.props.actions.getInitialData().then(items=>{
+            console.log('haha',items)
+        })
     }
 
     changeView = (index) => {
@@ -30,9 +35,7 @@ class Home extends Component {
         })
     };
     changeDate = (year, month) => {
-        this.setState({
-            currentDate: {year, month}
-        })
+        this.props.actions.selectNewMonth(year, month)
     };
     modifyItem = (item) => {
         this.props.history.push(`/edit/${item.id}`)
@@ -53,14 +56,12 @@ class Home extends Component {
 
     render() {
         const {data} = this.props;
-        const {items, categories} = data
-        const {currentDate, tabView} = this.state
+        const {items, categories, currentDate, isLoading} = data
+        const {tabView} = this.state
         const itemsWithCategory = Object.keys(items).map(id => {
             items[id].category = categories[items[id].cid];
             return items[id]
-        }).filter(item => {
-            return item.date.includes(`${currentDate.year}-${padLeft(currentDate.month)}`)
-        });
+        })
 
         let totalIncome = 0, totalOutcome = 0;
         itemsWithCategory.forEach(item => {
@@ -94,7 +95,12 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="content-area py-3 px-3">
-                    <React.Fragment>
+
+                    {isLoading &&
+                    <Loader/>
+                    }
+                    {!isLoading &&
+                        <React.Fragment>
                         <Tabs activeIndex={0} onTabChange={this.changeView}>
                             <Tab>
                                 <Ionicon
@@ -116,21 +122,23 @@ class Home extends Component {
 
                             </Tab>
                         </Tabs>
-                        {/*<ViewTab activeTab={tabView} onTabChange={this.changeView()}/>*/}
+                    {/*<ViewTab activeTab={tabView} onTabChange={this.changeView()}/>*/}
                         <CreateBtn onCreateBtnClick={this.createItem}/>
-                        {/*如果tabView是列表模式,则显示PriceList*/}
-                        {tabView === LIST_VIEW &&
+                    {/*如果tabView是列表模式,则显示PriceList*/}
+                    {tabView === LIST_VIEW &&
                         <PriceList
-                            onModifyItem={this.modifyItem}
-                            items={itemsWithCategory}
-                            onDeleteItem={this.deleteItem}
+                        onModifyItem={this.modifyItem}
+                        items={itemsWithCategory}
+                        onDeleteItem={this.deleteItem}
                         />
-                        }
-                        {/*如果tabView是图表模式,则显示          */}
-                        {tabView === CHART_VIEW &&
+                    }
+                    {/*如果tabView是图表模式,则显示          */}
+                    {tabView === CHART_VIEW &&
                         <h1>这里是图表模式</h1>
-                        }
-                    </React.Fragment>
+                    }
+                        </React.Fragment>
+                    }
+
                 </div>
             </React.Fragment>
 
