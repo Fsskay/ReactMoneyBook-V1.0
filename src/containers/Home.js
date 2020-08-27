@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import logo from '../logo.svg';
-import {LIST_VIEW, CHART_VIEW, TYPE_OUTCOME, parseToYearAndMonth, padLeft} from '../utility'
+import {LIST_VIEW, CHART_VIEW, TYPE_OUTCOME, parseToYearAndMonth, padLeft, TYPE_INCOME} from '../utility'
 import PriceList from "../components/PriceList";
 import ViewTab from "../components/ViewTab";
 import TotalPrice from "../components/TotalPrice";
@@ -12,8 +12,37 @@ import {AppContext} from "../App"
 import withContext from '../WithContext'
 import {withRouter} from 'react-router-dom'
 import Loader from '../components/Loader'
+import { Colors } from '../utility'
+import PieChart from '../components/PieChart'
+
+const chartData = [
+    {value:100,name:'一'},
+    {value:200,name:'二'},
+    {value:300,name:'三'},
+    {value:150,name:'四'},
+    {value:200,name:'五'},
+    {value:300,name:'六'}
+]
+
 
 const tabsText = [LIST_VIEW, CHART_VIEW]
+
+const generateChartDataByCategory = (items,type = TYPE_INCOME) =>{
+    let categoryMap = {}
+    items.filter(item => item.category.type ===type).forEach(item =>{
+        if (categoryMap[item.cid]){
+            categoryMap[item.cid].value += (item.price * 1)
+            categoryMap[item.cid].items.push(item.id)
+        } else {
+            categoryMap[item.cid] ={
+                name:item.category.name,
+                value:item.price *1,
+                items:[item.id]
+            }
+        }
+    })
+    return Object.keys(categoryMap).map(mapKey =>({...categoryMap[mapKey]}))
+}
 
 class Home extends Component {
     constructor(props) {
@@ -25,7 +54,6 @@ class Home extends Component {
 
     componentDidMount() {
         this.props.actions.getInitialData().then(items=>{
-            console.log('haha',items)
         })
     }
 
@@ -58,10 +86,13 @@ class Home extends Component {
         const {data} = this.props;
         const {items, categories, currentDate, isLoading} = data
         const {tabView} = this.state
+        const ColorsArr = Object.keys(Colors).map(key=>Colors[key])
         const itemsWithCategory = Object.keys(items).map(id => {
             items[id].category = categories[items[id].cid];
             return items[id]
         })
+        const chartOutcomDataByCategory = generateChartDataByCategory(itemsWithCategory, TYPE_OUTCOME)
+        const chartIncomeDataByCategory = generateChartDataByCategory(itemsWithCategory, TYPE_INCOME)
 
         let totalIncome = 0, totalOutcome = 0;
         itemsWithCategory.forEach(item => {
@@ -131,9 +162,16 @@ class Home extends Component {
                         onDeleteItem={this.deleteItem}
                         />
                     }
-
+                    { tabView === LIST_VIEW && itemsWithCategory.length === 0 &&
+                    <div className="alert alert-light text-center no-record">
+                        您还没有任何记账记录
+                    </div>
+                    }
                     {tabView === CHART_VIEW &&
-                        <h1>这里是图表模式</h1>
+                    <React.Fragment>
+                        <PieChart title="本月支出" categoryData={chartOutcomDataByCategory} />
+                        <PieChart title="本月收入" categoryData={chartIncomeDataByCategory} />
+                    </React.Fragment>
                     }
                         </React.Fragment>
                     }
