@@ -20,6 +20,7 @@ export class Create extends React.Component {
         this.state = {
             selectedTab: (id && items[id]) ? categories[items[id].cid].type : TYPE_OUTCOME,
             selectedCategory: (id && items[id]) ? categories[items[id].cid] : null,
+            validationPassed: true,
         }
     }
 
@@ -73,7 +74,7 @@ export class Create extends React.Component {
         const {items, categories} = data;
         const {id} = this.props.match.params
         const editItem = (id && items[id]) ? items[id] : {}
-        const {selectedTab, selectedCategory} = this.state;
+        const {selectedTab, selectedCategory,validationPassed} = this.state;
         const filterCategories = Object.keys(categories)
             .filter(id => categories[id].type === selectedTab)
             .map(id => categories[id]);
@@ -92,6 +93,11 @@ export class Create extends React.Component {
                         onCancelSubmit={this.cancelSubmit}
                         item={editItem}
                     />
+                    { !validationPassed &&
+                    <div className="alert alert-danger mt-5" role="alert">
+                        请选择分类信息
+                    </div>
+                    }
                 </div>
             </React.Fragment>
         );
