@@ -85,12 +85,15 @@ class Home extends Component {
     render() {
         const {data} = this.props;
         const {items, categories, currentDate, isLoading} = data
+
         const {tabView} = this.state
-        const ColorsArr = Object.keys(Colors).map(key=>Colors[key])
+
+        //es6语法,将items和category由对象转化为对象数组
         const itemsWithCategory = Object.keys(items).map(id => {
             items[id].category = categories[items[id].cid];
             return items[id]
         })
+
         const chartOutcomDataByCategory = generateChartDataByCategory(itemsWithCategory, TYPE_OUTCOME)
         const chartIncomeDataByCategory = generateChartDataByCategory(itemsWithCategory, TYPE_INCOME)
 
@@ -102,6 +105,13 @@ class Home extends Component {
                 totalIncome += item.price
             }
         });
+
+
+        console.log('items',items);
+        console.log('categories',categories);
+
+        console.log('itemsWithCategory',itemsWithCategory);
+
 
         return (
             <React.Fragment>

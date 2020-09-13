@@ -78,6 +78,8 @@ export class Create extends React.Component {
         const filterCategories = Object.keys(categories)
             .filter(id => categories[id].type === selectedTab)
             .map(id => categories[id]);
+        console.log("filterCategories",filterCategories)
+        console.log('categories',categories);
         const tabIndex = tabsText.findIndex(text => text === selectedTab)
         return (
             <React.Fragment>

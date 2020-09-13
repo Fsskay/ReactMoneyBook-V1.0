@@ -22,12 +22,13 @@ class PriceForm extends React.Component {
 
     sumbitForm = (event)=>{
         const { item,onFormSubmit } = this.props;
+        //如果item.id有内容,那就是编辑模式
         const editMode = !!item.id;
 
         const price =this.priceInput.value.trim() *1;
         const date =this.dateInput.value.trim() ;
         const title =this.titleInput.value.trim() ;
-        if (price && date && title) {
+        if (price && title && date ) {
             if (price < 0) {
                 this.setState({
                     validatePass: false,
@@ -62,6 +63,7 @@ class PriceForm extends React.Component {
     render() {
         const { title, price, date } = this.props.item
         return (
+            <React.Fragment>
             <form onSubmit={(event) => {this.sumbitForm(event)}} noValidate style={{background: '#fff'}}>
                 <div className="form-group">
                     <label htmlFor="title">标题*</label>
@@ -104,6 +106,7 @@ class PriceForm extends React.Component {
                     </div>
                 }
             </form>
+            </React.Fragment>
         )
     }
 }

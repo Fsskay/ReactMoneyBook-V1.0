@@ -27,7 +27,7 @@ export class Tabs extends React.Component {
                 {/*  React.Children.map(this.props.children,function(child) {
                     return <li>{child}</li>
                     })*/}
-                {/*children就是tab,child就是React元素,index为序列*/}
+                {/*Tab是Tabs的children,child就是React元素,index为序列*/}
 
                 {React.Children.map(children, (child, index) => {
                     const activeClassName = (activeIndex === index) ? 'nav-link active' : 'nav-link';
@@ -40,7 +40,7 @@ export class Tabs extends React.Component {
                                 className={activeClassName}
                                 href="#"
                             >
-                                {child}
+                                                {child}
                             </a>
                         </li>
                     )

@@ -18,8 +18,9 @@ class App extends Component {
             categories: {},
             isLoading: false,
             currentDate: parseToYearAndMonth()
-
         };
+
+
         const withLoading = (cb) =>{
             return (...args)=>{
                 this.setState({

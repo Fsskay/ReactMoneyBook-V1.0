@@ -53,7 +53,6 @@ class MonthPicker extends React.Component {
 
 
     render() {
-        // 通过闭包来访问props和state,确保selectMonth执行时，访问到的props和state就是render执行时的那份数据
         const {year, month} = this.props;
         const {selectedYear} = this.state;
         const {isOpen} = this.state;
