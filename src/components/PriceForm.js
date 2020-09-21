@@ -29,6 +29,7 @@ class PriceForm extends React.Component {
         const date =this.dateInput.value.trim() ;
         const title =this.titleInput.value.trim() ;
         if (price && title && date ) {
+            console.log(1)
             if (price < 0) {
                 this.setState({
                     validatePass: false,
@@ -99,7 +100,7 @@ class PriceForm extends React.Component {
                     />
                 </div>
                 <button type="submit" className="btn btn-primary mr-3">提交</button>
-                <button onClick={this.props.onCancelSubmit}>取消</button>
+                <button className="btn mr-3" onClick={this.props.onCancelSubmit}>取消</button>
                 {!this.state.validatePass &&
                     <div className="alert alert-danger mt-5" role="alert">
                         {this.state.errorMessage}
