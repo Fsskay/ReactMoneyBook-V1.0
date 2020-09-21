@@ -67,7 +67,7 @@ class PriceForm extends React.Component {
             <React.Fragment>
             <form onSubmit={(event) => {this.sumbitForm(event)}} noValidate style={{background: '#fff'}}>
                 <div className="form-group">
-                    <label htmlFor="title">标题*</label>
+                    <label htmlFor="title"><strong>标题*</strong></label>
                     <input
                         type="text"
                         className="form-control"
@@ -78,7 +78,7 @@ class PriceForm extends React.Component {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="price">金额*</label>
+                    <label htmlFor="price"><strong>金额*</strong></label>
                     <input
                         type="number"
                         className="form-control"
@@ -89,7 +89,7 @@ class PriceForm extends React.Component {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="date">日期*</label>
+                    <label htmlFor="date"><strong>日期*</strong></label>
                     <input
                         type="date"
                         className="form-control"

@@ -1,5 +1,5 @@
 .App {
-  background: #efefef;
+  background: #fff;
 }
 
 .App-logo {
@@ -17,11 +17,37 @@
   background-color: #222;
   padding: 20px;
   color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
 }
 
 .content-area {
   background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
 }
+
+.create-page{
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+
+}
+
+
+.red-income{
+  color: red;
+}
+
+svg.priceListIcon {
+  height:30px;
+  width: 30px;
+}
+
+svg.createIcon{
+  height:90px;
+  width: 90px;
+}
+
 
 .App-link {
   color: #61dafb;

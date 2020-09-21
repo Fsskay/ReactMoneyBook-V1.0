@@ -34,13 +34,13 @@ class CategorySelect extends React.Component {
                                     this.selectCategory(event,category)
                                 }}>
                                     <Ionicon
-                                        className="rounded-circle"
+                                        className="rounded-circle createIcon"
                                         style={{ backgroundColor: backColor, padding: '5px' }}
                                         fontSize="50px"
                                         color={iconColor}
                                         icon={category.iconName}
                                     />
-                                    <p>{category.name}</p>
+                                    <p className="font-weight-bold" >{category.name}</p>
                                 </div>
                             )
                         })

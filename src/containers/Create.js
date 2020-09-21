@@ -85,8 +85,8 @@ export class Create extends React.Component {
             <React.Fragment>
                 <div className="create-page py-3 px-3 rounded mt-3" style={{background: '#fff', padding: 20}}>
                     <Tabs activeIndex={tabIndex} onTabChange={this.tabChange}>
-                        <Tab>支出</Tab>
-                        <Tab>收入</Tab>
+                        <Tab><strong>支出</strong></Tab>
+                        <Tab><strong>收入</strong></Tab>
                     </Tabs>
                     <CategorySelect categories={filterCategories} onSelectCategory={this.selectCategory}
                                     selectedCategory={selectedCategory}/>

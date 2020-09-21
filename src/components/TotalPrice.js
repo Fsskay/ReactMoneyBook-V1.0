@@ -5,16 +5,21 @@ import PropTypes from 'prop-types'
 //函数型组件 TotalPrice ,父组件的props,income和outcome作为参数
 
 
-const TotalPrice = ({income,outcome})=>(
+const TotalPrice = ({income,outcome})=>{
+
+    const TotalPriceIncomeClassName = (income === 0) ? '' : 'red-income';
+
+    return(
     <div className="row">
         <div className="col">
-            <h5 className="income">收入：<span>{income}</span></h5>
+            <h4 className="income ">收入：<span className={TotalPriceIncomeClassName}>{income}</span></h4>
         </div>
         <div className="col">
-            <h5 className="outcome">支出：<span>{outcome}</span></h5>
+            <h4 className="outcome">支出：<span>{outcome}</span></h4>
         </div>
     </div>
-);
+    )
+};
 
 
 TotalPrice.propTypes = {

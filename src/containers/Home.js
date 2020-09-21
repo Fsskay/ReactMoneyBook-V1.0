@@ -15,15 +15,6 @@ import Loader from '../components/Loader'
 import { Colors } from '../utility'
 import PieChart from '../components/PieChart'
 
-const chartData = [
-    {value:100,name:'一'},
-    {value:200,name:'二'},
-    {value:300,name:'三'},
-    {value:150,name:'四'},
-    {value:200,name:'五'},
-    {value:300,name:'六'}
-]
-
 
 const tabsText = [LIST_VIEW, CHART_VIEW]
 
@@ -150,7 +141,7 @@ class Home extends Component {
                                     color={'#006bff'}
                                     icon='ios-paper'
                                 />
-                                列表模式
+                                <strong>列表模式</strong>
                             </Tab>
                             <Tab>
                                 <Ionicon
@@ -159,7 +150,7 @@ class Home extends Component {
                                     color={'#007bff'}
                                     icon='ios-pie'
                                 />
-                                图表模式
+                                <strong>图表模式</strong>
 
                             </Tab>
                         </Tabs>

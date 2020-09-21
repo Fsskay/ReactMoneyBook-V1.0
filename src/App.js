@@ -91,6 +91,7 @@ class App extends Component {
                 const newId = ID()
                 const parsedDate = parseToYearAndMonth(data.date)
                 data.monthCategory = `${parsedDate.year}-${parsedDate.month}`
+                data.timestamp = new Date(data.date).getTime()
                 const newItem = await axios.post('/items',{...data, id: newId, cid: categoryId})
                 this.setState({
                     items: {...this.state.items, [newId]: newItem.data},
